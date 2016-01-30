@@ -22,6 +22,7 @@ import core.World;
 /**
  * Abstract superclass for user interfaces; contains also some simulation
  * settings.
+ * DTNSimUI是抽象类，具体的实现有命令行和GUI两种
  */
 public abstract class DTNSimUI {
 	/** 
@@ -48,14 +49,19 @@ public abstract class DTNSimUI {
 
 	/** The World where all actors of the simulator are */
 	protected World world;
+	
 	/** Reports that are loaded for this simulation */
 	protected Vector<Report> reports;
+	
 	/** has simulation terminated normally */
 	protected boolean simDone;
+	
 	/** is simulation termination requested */
 	protected boolean simCancelled;
+	
 	/** Scenario of the current simulation */
 	protected SimScenario scen;
+	
 	/** simtime of last UI update */
 	protected double lastUpdate;
 	
@@ -71,6 +77,7 @@ public abstract class DTNSimUI {
 	
 	/**
 	 * Starts the simulation.
+	 * 启动simulation，有两步，其一是初始化模型，其二是runSim
 	 */
 	public void start() {
 		initModel();
@@ -79,6 +86,7 @@ public abstract class DTNSimUI {
 	
 	/**
 	 * Runs simulation after the model has been initialized.
+	 * runSim是根据UI类型的不同，到具体的子类中实现的
 	 */
 	protected abstract void runSim();
 	
@@ -91,9 +99,12 @@ public abstract class DTNSimUI {
 		try {
 			//是创建了一个新的settings对象
 			settings = new Settings();
+			//SimScenario.getInstance方法获得了用于模拟的场景对象，这一方法确保场景是singleton的
 			this.scen = SimScenario.getInstance();
 
 			// add reports
+			//获取到所有的report类（将类名读到String），并添加到report类的vector中去
+			//同时，根据其类型的不同（具体是哪一种Listener），添加到场景中去
 			for (int i=1, n = settings.getInt(NROF_REPORT_S); i<=n; i++){
 				String reportClass = settings.getSetting(REPORT_S + i);
 				addReport((Report)settings.createObject(REPORT_PAC + 
@@ -101,6 +112,7 @@ public abstract class DTNSimUI {
 			}
 
 			double warmupTime = 0;
+			//如果移动模型有“预热时间”，那么把模拟器的时钟回拨，以实现预热效果
 			if (settings.contains(MM_WARMUP_S)) {
 				warmupTime = settings.getDouble(MM_WARMUP_S);
 				if (warmupTime > 0) {
@@ -109,7 +121,9 @@ public abstract class DTNSimUI {
 				}
 			}
 
+			//world对象在场景被创建时，即在构造器中创建了
 			this.world = this.scen.getWorld();
+			//移动模型的预热
 			world.warmupMovementModel(warmupTime);
 		}
 		catch (SettingsError se) {
@@ -126,6 +140,7 @@ public abstract class DTNSimUI {
 	
 	/**
 	 * Runs maintenance jobs that are needed before exiting.
+	 *模拟执行完毕，此时，执行（输出）所有的报告
 	 */
 	public void done() {
 		for (Report r : this.reports) {
