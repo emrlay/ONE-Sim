@@ -200,6 +200,7 @@ public class Settings {
 	 * called before any setting requests. Subsequent calls replace all
 	 * old settings and then Settings contains only the new settings.
 	 * The file {@link #DEF_SETTINGS_FILE}, if exists, is always read.
+	 * 初始化设定，如果DEF_SETTINGS_FILE存在的话，那么一定会读取这个文件的配置
 	 * @param propFile Path to the property file where additional settings
 	 * are read from or null if no additional settings files are needed.
 	 * @throws SettingsError If loading the settings file(s) didn't succeed
@@ -218,14 +219,16 @@ public class Settings {
 				props = new Properties();
 			}
 			if (propFile != null) {
-				//很巧妙的用load
+				//很巧妙的用load，可以覆盖之前的
 				props.load(new FileInputStream(propFile));
 			}
 		} catch (IOException e) {
 			throw new SettingsError(e);
 		}
 
+		//settings输出的位置
 		outFile = props.getProperty(SETTING_OUTPUT_S);
+		
 		if (outFile != null) {
 			if (outFile.trim().length() == 0) {
 				out = System.out;
@@ -243,6 +246,7 @@ public class Settings {
 	/**
 	 * Reads another settings file and adds the key-value pairs to the current
 	 * settings overriding any values that already existed with the same keys.
+	 * 第二个及以后的配置文件通过addSettings方法读入，properties的load方法会覆盖之前读入的
 	 * @param propFile Path to the property file
 	 * @throws SettingsError If loading the settings file didn't succeed
 	 * @see #init(String)
@@ -326,7 +330,7 @@ public class Settings {
 		String value = props.getProperty(fullPropName);
 		
 		if (value != null) { // found value, check if run setting can be parsed
-			//有些设置值可能在不同的run是不一样的
+			//有些设置值可能在不同的run是不一样的，通过parseRunSetting方法找到当前run对应的settings
 			value = parseRunSetting(value.trim());
 		}
 			

@@ -12,14 +12,18 @@ import core.*;
  */
 public class EnergyAwareRouter extends ActiveRouter 
 		implements ModuleCommunicationListener{
+	
 	/** Initial units of energy -setting id ({@value}). Can be either a 
 	 * single value, or a range of two values. In the latter case, the used
 	 * value is a uniformly distributed random value between the two values. */
 	public static final String INIT_ENERGY_S = "intialEnergy";
+	
 	/** Energy usage per scanning -setting id ({@value}). */
 	public static final String SCAN_ENERGY_S = "scanEnergy";
+	
 	/** Energy usage per second when sending -setting id ({@value}). */
 	public static final String TRANSMIT_ENERGY_S = "transmitEnergy";
+	
 	/** Energy update warmup period -setting id ({@value}). Defines the 
 	 * simulation time after which the energy level starts to decrease due to 
 	 * scanning, transmissions, etc. Default value = 0. If value of "-1" is 

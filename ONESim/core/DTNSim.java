@@ -52,6 +52,7 @@ public class DTNSim {
 		java.util.Locale.setDefault(java.util.Locale.US);
 		
 		if (args.length > 0) {
+			//命令行运行的模式
 			if (args[0].equals(BATCH_MODE_FLAG)) {
 				batchMode = true;
                 if (args.length == 1) {
@@ -73,6 +74,7 @@ public class DTNSim {
 			confFiles = args;
 		}
 		else {
+			//填了一个null进去，所以长度不会是0
 			confFiles = new String[] {null};
 		}
 		
@@ -152,7 +154,9 @@ public class DTNSim {
 	public static void registerForReset(String className) {
 		Class<?> c = null;
 		try {
+			//寻找是否有这个类
 			c = Class.forName(className);
+			//寻找是否有reset的方法
 			c.getMethod(RESET_METHOD_NAME);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Can't register class " + className + 
@@ -165,6 +169,7 @@ public class DTNSim {
 			" for resetting; class doesn't contain resetting method");
 			System.exit(-1);
 		}
+		//将这个类放到reset列表中
 		resetList.add(c);
 	}
 	
@@ -175,6 +180,7 @@ public class DTNSim {
 	private static void resetForNextRun() {
 		for (Class<?> c : resetList) {
 			try {
+				//用反射获得方法对象，并进行调用
 				Method m = c.getMethod(RESET_METHOD_NAME);
 				m.invoke(null);
 			} catch (Exception e) {
@@ -188,6 +194,7 @@ public class DTNSim {
 	/**
 	 * Parses the number of runs, and an optional starting run index, from a 
 	 * command line argument
+	 * 从命令行读取模拟运行的次数
 	 * @param arg The argument to parse
 	 * @return The first and (last_run_index - 1) in an array
 	 */
@@ -214,7 +221,7 @@ public class DTNSim {
 					"option has changed in version 1.3.");
 			System.exit(-1);
 		}
-		
+		//范围不可以出现小于0
 		if (val[0] < 0) {
 			System.err.println("Starting run value can't be smaller than 1");
 			System.exit(-1);
