@@ -1,6 +1,6 @@
 #
 # Default settings for the simulation
-#
+##
 
 ## Scenario settings
 Scenario.name = default_scenario
