@@ -624,6 +624,7 @@ public class Settings {
 	 * Creates (and dynamically loads the class of) an object that
 	 * intializes itself using the settings in this Settings object
 	 * (given as the only parameter to the constructor). 
+	 * 创建对象，并使用Settings中的相关内容对这个对象进行初始化，调用loadObject方法来完成
 	 * @param className Name of the class of the object
 	 * @return Initialized object
 	 * @throws SettingsError if object couldn't be created
@@ -638,6 +639,7 @@ public class Settings {
 	/**
 	 * Creates (and dynamically loads the class of) an object using the
 	 * constructor without any parameters.
+	 * 创建对象，此时，直接调用相应对象的构造器，不传入任何参数，也是通过loadObject方法完成的
 	 * @param className Name of the class of the object
 	 * @return Initialized object
 	 * @throws SettingsError if object couldn't be created
@@ -648,10 +650,11 @@ public class Settings {
 	
 	/**
 	 * Dynamically loads and creates an object.
+	 * 动态加载并创建对象
 	 * @param className Name of the class of the object
 	 * @param argsClass Class(es) of the argument(s) or null if no-argument
-	 * constructor should be called
-	 * @param args Argument(s)
+	 * constructor should be called 参数类（Settings.class）
+	 * @param args Argument(s) 参数（即直接把settings这个对象传进来了）
 	 * @return The new object
 	 * @throws SettingsError if object couldn't be created
 	 */
@@ -662,11 +665,14 @@ public class Settings {
 		Constructor<?> constructor;
 		
 		try {
-			if (argsClass != null) { // use a specific constructor
+			if (argsClass != null) { // use a specific constructor，如果argsClass不是空，那么需要调用有参构造器
+				//这里调用getConstructor找到参数是Settings的构造器
+				//在ONE中，如果需要createInitObject，那么这个类必须提供一个单参数构造器，该参数是Settings类型
 				constructor = objClass.getConstructor((Class[])argsClass);
+				//把整个Settings传进去作为构造器的参数，调用构造器创建出对象
 				o = constructor.newInstance(args);
 			}
-			else { // call empty constructor
+			else { // call empty constructor，否则，调用无参构造器
 				o = objClass.newInstance();
 			}
 		} catch (SecurityException e) {
@@ -702,6 +708,7 @@ public class Settings {
 	/**
 	 * Returns a Class object for the name of class of throws SettingsError
 	 * if such class wasn't found. 
+	 * 利用反射找到相应的类，返回Class对象
 	 * @param name Full name of the class (including package name) 
 	 * @return A Class object of that class
 	 * @throws SettingsError if such class wasn't found or couldn't be loaded 
