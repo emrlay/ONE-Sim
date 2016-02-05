@@ -17,6 +17,7 @@ import java.util.Random;
 /**
  * World contains all the nodes and is responsible for updating their
  * location and connections.
+ * 世界类包含了模拟中所有的节点，它负责维护节点间的连接，及其位置的更新
  */
 public class World {
 	/** namespace of optimization settings ({@value})*/
