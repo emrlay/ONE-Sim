@@ -4,6 +4,7 @@
  */
 package ui;
 
+import java.util.List;
 import java.util.Vector;
 
 import report.Report;
@@ -18,6 +19,7 @@ import core.SimError;
 import core.SimScenario;
 import core.UpdateListener;
 import core.World;
+import movement.map.MapNode;
 
 /**
  * Abstract superclass for user interfaces; contains also some simulation
@@ -81,6 +83,11 @@ public abstract class DTNSimUI {
 	 */
 	public void start() {
 		initModel();
+		List<MapNode> nodes = scen.getMap().getNodes();
+		System.out.println("Total mapnode: "+nodes.size());
+		for(MapNode m : nodes){
+			System.out.println(m.toString());
+		}
 		runSim();
 	}
 	

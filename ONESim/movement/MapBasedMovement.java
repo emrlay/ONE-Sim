@@ -283,6 +283,8 @@ public class MapBasedMovement extends MovementModel implements SwitchableMovemen
 			}
 		}
 
+		//cachedMapFiles是被缓存的一系列地图文件的名称
+		//先从setting里读出一系列的map文件的名称，加入WKTReader
 		try {
 			int nrofMapFiles = settings.getInt(NROF_FILES_S);
 
@@ -297,6 +299,7 @@ public class MapBasedMovement extends MovementModel implements SwitchableMovemen
 			throw new SimError(e.toString(),e);
 		}
 
+		//通过WKTReader来读取SimMap
 		simMap = r.getMap();
 		checkMapConnectedness(simMap.getNodes());
 		// mirrors the map (y' = -y) and moves its upper left corner to origo
