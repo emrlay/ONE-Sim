@@ -76,6 +76,7 @@ public class DTNSim {
 		else {
 			//填了一个null进去，所以长度不会是0
 			confFiles = new String[] {null};
+			confFiles = new String[] {"wdm_settings/demo.txt"};
 		}
 		
 		initSettings(confFiles, firstConfIndex);

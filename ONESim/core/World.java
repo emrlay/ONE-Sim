@@ -145,6 +145,7 @@ public class World {
 	/**
 	 * Goes through all event Queues and sets the 
 	 * event queue that has the next event.
+	 * 遍历所有的外部事件队列，寻找出（发生事件的时间距离当前SimClock）最近的那个事件队列
 	 */
 	public void setNextEventQueue() {
 		EventQueue nextQueue = scheduledUpdates;

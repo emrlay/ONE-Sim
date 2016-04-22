@@ -97,6 +97,7 @@ public class OfficeActivityMovement extends MapBasedMovement implements
 			// Do nothing;
 		}
 		
+		//如果没有指定office的位置，那么获取地图上所有的MapNode，来做随机选择
 		if (officeLocationsFile == null) {
 			MapNode[] mapNodes = (MapNode[])getMap().getNodes().
 				toArray(new MapNode[0]);
@@ -142,6 +143,7 @@ public class OfficeActivityMovement extends MapBasedMovement implements
 		this.pathFinder = proto.pathFinder;
 		this.mode = proto.mode;
 		
+		//replicate的时候调用的是这个构造方法，把office的位置重置了！
 		if (proto.allOffices == null) {
 			MapNode[] mapNodes = (MapNode[])getMap().getNodes().
 				toArray(new MapNode[0]);
@@ -279,6 +281,7 @@ public class OfficeActivityMovement extends MapBasedMovement implements
 	 * @return The location of the office
 	 */
 	public Coord getOfficeLocation() {
+		System.out.println("Office location is "+officeLocation);
 		return officeLocation.clone();
 	}
 

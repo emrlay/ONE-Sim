@@ -243,6 +243,7 @@ public class HomeActivityMovement extends MapBasedMovement
 	 * @return Home location of the node
 	 */
 	public Coord getHomeLocation() {
+		System.out.println("Home location is "+homeLocation);
 		return homeLocation.clone();
 	}
 

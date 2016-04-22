@@ -96,6 +96,7 @@ public class WorkingDayMovement extends ExtendedMovementModel {
 	public boolean newOrders() {
 		switch (mode) {
 		case WORK_MODE:
+			System.out.println("I am in WORK_MODE");
 			if (workerMM.isReady()) {
 				setCurrentMovementModel(movementUsedForTransfers);
 				if (doEveningActivityProb > rng.nextDouble()) {
@@ -113,6 +114,7 @@ public class WorkingDayMovement extends ExtendedMovementModel {
 			}
 			break;
 		case HOME_MODE:
+			System.out.println("I am in HOME_MODE");
 			if (homeMM.isReady()) {
 				setCurrentMovementModel(movementUsedForTransfers);
 				movementUsedForTransfers.setNextRoute(homeMM.getHomeLocation(),
@@ -121,6 +123,7 @@ public class WorkingDayMovement extends ExtendedMovementModel {
 			}
 			break;
 		case EVENING_ACTIVITY_MODE:
+			System.out.println("I am in EVENING_ACTIVITY_MODE");
 			if (eveningActivityMovement.isReady()) {
 				setCurrentMovementModel(movementUsedForTransfers);
 				movementUsedForTransfers.setNextRoute(eveningActivityMovement.
@@ -129,18 +132,21 @@ public class WorkingDayMovement extends ExtendedMovementModel {
 			}
 			break;
 		case BUS_TO_WORK_MODE:
+			System.out.println("I am in BUS_TO_WORK_MODE");
 			if (movementUsedForTransfers.isReady()) {
 				setCurrentMovementModel(workerMM);
 				mode = WORK_MODE;
 			}
 			break;
 		case BUS_TO_HOME_MODE:
+			System.out.println("I am in BUS_TO_HOME_MODE");
 			if (movementUsedForTransfers.isReady()) {
 				setCurrentMovementModel(homeMM);
 				mode = HOME_MODE;
 			}
 			break;
 		case BUS_TO_EVENING_ACTIVITY_MODE:
+			System.out.println("I am in BUS_TO_EVENING_ACTIVITY_MODE");
 			if (movementUsedForTransfers.isReady()) {
 				setCurrentMovementModel(eveningActivityMovement);
 				mode = EVENING_ACTIVITY_MODE;

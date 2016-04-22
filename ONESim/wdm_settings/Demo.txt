@@ -8,12 +8,12 @@ Scenario.endTime = 700k
 Report.warmup = 0
 Group.msgTtl = 1433
 
-Scenario.nrofHostGroups = 3
+Scenario.nrofHostGroups = 5
 
 ###################################
 ### common settings for all groups
 Group.movementModel = MapBasedMovement
-Group.router = EpidemicRouter
+Group.router = ModifiedDirectDeliveryRouter
 Group.bufferSize = 100M
 Group.transmitRange = 10
 # transmit speed of 2 Mbps = 250kBps
@@ -21,6 +21,7 @@ Group.transmitSpeed = 100k
 Group.waitTime = 0, 0
 # walking speeds
 Group.speed = 0.5, 1.5
+Group.interface1 = btInterface
 
 Group.nrOfOffices = 20
 Group.workDayLength = 28800
@@ -36,13 +37,13 @@ Group.nrofHosts = 0
 
 Group.timeDiffSTD = 7200
 Group.minGroupSize = 1
-Group.maxGroupSize = 3
+Group.maxGroupSize = 4
 Group.minAfterShoppingStopTime = 3600
 Group.maxAfterShoppingStopTime = 7200
 
 ####################################################
 
-
+# 0 1
 Group1.groupID = BUSS
 Group1.speed = 7, 10
 Group1.waitTime = 10, 30
@@ -52,26 +53,44 @@ Group1.routeFile = data/demo_bus.wkt
 Group1.routeType = 2
 Group1.busControlSystemNr = 8
 
-Group2.groupID = n
+# 2
+Group2.groupID = ncaa
 Group2.waitTime = 0, 0 
-Group2.nrofHosts = 100
+Group2.nrofHosts = 1
 Group2.movementModel = WorkingDayMovement
 Group2.busControlSystemNr = 8
 Group2.speed = 0.8, 1.4
-Group2.ownCarProb = 0.2
+Group2.ownCarProb = 1
 Group2.shoppingControlSystemNr = 8
 Group2.nrOfOffices = 20
 Group2.nrOfMeetingSpots = 2
 
-Group3.groupID = T
-Group3.movementModel = ShortestPathMapBasedMovement
-Group3.waitTime = 100, 300
-Group3.speed = 7, 10
-Group3.nrofHosts = 2
+# 3 4 5 6 7 8 9 10 11 12
+Group3.groupID = abcd
+Group3.waitTime = 0, 0 
+Group3.nrofHosts = 10
+Group3.movementModel = MapBasedMovement
+
+# 13
+Group4.groupID = RSU
+Group4.waitTime = 0, 0
+Group4.nrofHosts = 1
+Group4.movementModel = StationaryMovement
+Group4.nodeLocation = 0,0
+
+# 14
+Group5.groupID = RSUA
+Group5.waitTime = 0, 0
+Group5.nrofHosts = 1
+Group5.movementModel = StationaryMovement
+Group5.router = DirectDeliveryRouter
+Group5.nodeLocation = 1500,1500
+
+
 
 
 # max number of external events to preload (default = 500) 
-ExternalEvents.nrofPreload = 500
+# ExternalEvents.nrofPreload = 500
 # path to external events file
 #ExternalEvents.filePath = ee/700_events_1000_nodes_700ks.txt
 
